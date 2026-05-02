@@ -1,0 +1,5 @@
+John Doe,j.doe@abc.co.za,johndoe,29ef52e7563626a96cea7f4b4085c124,12 Main Road Cape Town,Verified
+Mary Smith,m.smith@abc.co.za,marysmith,29ef52e7563626a96cea7f4b4085c124,45 Long Street Johannesburg,Pending
+Peter Jones,p.jones@abc.co.za,peterj,29ef52e7563626a96cea7f4b4085c124,78 Rosebank Avenue Pretoria,Verified
+Lerato Mokoena,l.mokoena@abc.co.za,leratom,29ef52e7563626a96cea7f4b4085c124,22 Sandton Drive Sandton,Pending
+Aisha Khan,a.khan@abc.co.za,aishak,29ef52e7563626a96cea7f4b4085c124,90 Durban Road Durban,Verified
