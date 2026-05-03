@@ -43,37 +43,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html>
 <head>
     <title>Register - Pastimes</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<h2>User Registration</h2>
+<div class="container">
+    <h2>Register</h2>
 
-<p style="color:red;"><?php echo $message; ?></p>
+    <?= $message ?>
 
-<form method="POST">
-    <label>Full Name:</label><br>
-    <input type="text" name="fullName" required><br><br>
+    <form method="POST">
+        <input type="text" name="fullName" placeholder="Full Name" required
+               value="<?= $_POST['fullName'] ?? '' ?>">
 
-    <label>Email:</label><br>
-    <input type="email" name="email" required><br><br>
+        <input type="text" name="username" placeholder="Username" required
+               value="<?= $_POST['username'] ?? '' ?>">
 
-    <label>Username:</label><br>
-    <input type="text" name="username" required><br><br>
+        <input type="email" name="email" placeholder="Email" required
+               value="<?= $_POST['email'] ?? '' ?>">
 
-    <label>Password:</label><br>
-    <input type="password" name="password" minlength="8" maxlength="8" required><br><br>
+        <input type="password" name="password" placeholder="Password" required>
+        <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
+        <input type="text" name="deliveryAddress" placeholder="Delivery Address" required>
 
-    <label>Confirm Password:</label><br>
-    <input type="password" name="confirmPassword" minlength="8" maxlength="8" required><br><br>
+        <button type="submit">Register</button>
+    </form>
 
-    <label>Delivery Address:</label><br>
-    <input type="text" name="deliveryAddress" required><br><br>
-
-    <button type="submit">Register</button>
-</form>
-
-<br>
-<a href="login.php">Already registered? Login here</a>
+    <a href="login.php">Already have an account?</a>
+</div>
 
 </body>
 </html>

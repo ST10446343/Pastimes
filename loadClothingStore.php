@@ -1,56 +1,69 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 include "DBConn.php";
 
-mysqli_query($conn, "DROP TABLE IF EXISTS tblAorder");
-mysqli_query($conn, "DROP TABLE IF EXISTS tblClothes");
-mysqli_query($conn, "DROP TABLE IF EXISTS tblAdmin");
-mysqli_query($conn, "DROP TABLE IF EXISTS tblUser");
+function runQuery($conn, $sql, $successMessage) {
+    if (mysqli_query($conn, $sql)) {
+        echo $successMessage . "<br>";
+    } else {
+        die("SQL ERROR: " . mysqli_error($conn) . "<br><br>Query was:<br>" . $sql);
+    }
+}
 
-$sqlUser = "CREATE TABLE IF NOT EXISTS tblUser (
+runQuery($conn, "DROP TABLE IF EXISTS tblAorder", "Dropped tblAorder");
+runQuery($conn, "DROP TABLE IF EXISTS tblClothes", "Dropped tblClothes");
+runQuery($conn, "DROP TABLE IF EXISTS tblAdmin", "Dropped tblAdmin");
+runQuery($conn, "DROP TABLE IF EXISTS tblUser", "Dropped tblUser");
+
+$sqlUser = "CREATE TABLE tblUser (
     userID INT AUTO_INCREMENT PRIMARY KEY,
     fullName VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     username VARCHAR(50) NOT NULL UNIQUE,
     passwordHash VARCHAR(250) NOT NULL,
     deliveryAddress VARCHAR(250) NOT NULL,
-    userStatus VARCHAR(20) DEFAULT 'Pending'    
+    userStatus VARCHAR(20) DEFAULT 'Pending'
 )";
-mysqli_query($conn, $sqlUser);
 
-$sqlAdmin = "CREATE TABLE IF NOT EXISTS tblAdmin (
+runQuery($conn, $sqlUser, "Created tblUser");
+
+$sqlAdmin = "CREATE TABLE tblAdmin (
     adminID INT AUTO_INCREMENT PRIMARY KEY,
     adminName VARCHAR(100) NOT NULL,
     adminEmail VARCHAR(100) NOT NULL UNIQUE,
     adminUsername VARCHAR(50) NOT NULL UNIQUE,
     adminPasswordHash VARCHAR(50) NOT NULL
 )";
-mysqli_query($conn, $sqlAdmin);
 
-$sqlClothes = "CREATE TABLE IF NOT EXISTS tblClothes (
-    clothesID AUTO_INCREMENT PRIMARY KEY,
-    sellerID ID INT NOT NULL,
-    itemName varchar(100) NOT NULL,
+runQuery($conn, $sqlAdmin, "Created tblAdmin");
+
+$sqlClothes = "CREATE TABLE tblClothes (
+    clothesID INT AUTO_INCREMENT PRIMARY KEY,
+    sellerID INT NOT NULL,
+    itemName VARCHAR(100) NOT NULL,
     brand VARCHAR(100) NOT NULL,
     size VARCHAR(20) NOT NULL,
     price DECIMAL(10,2) NOT NULL,
     imagePath VARCHAR(250),
-    itemStatus VARCHAR(20) DEFAULT 'AVAILABLE',
+    itemStatus VARCHAR(20) DEFAULT 'Available',
     FOREIGN KEY (sellerID) REFERENCES tblUser(userID)
 )";
 
-mysqli_query($conn, $sqlClothes);
+runQuery($conn, $sqlClothes, "Created tblClothes");
 
-$sqlOrder = "CREATE TABLE IF NOT EXISTS tblAorder(
+$sqlOrder = "CREATE TABLE tblAorder (
     orderID INT AUTO_INCREMENT PRIMARY KEY,
     buyerID INT NOT NULL,
     clothesID INT NOT NULL,
     orderDate DATE NOT NULL,
-    orderStatus VARCHAR(30) DEFAULT 'PENDING',
+    orderStatus VARCHAR(30) DEFAULT 'Pending',
     FOREIGN KEY (buyerID) REFERENCES tblUser(userID),
     FOREIGN KEY (clothesID) REFERENCES tblClothes(clothesID)
 )";
- mysqli_query($conn, $sqlOrder);
 
- echo " CothingStore tables have been successfully created.";
- ?>
+runQuery($conn, $sqlOrder, "Created tblAorder");
+
+echo "<br><strong>ClothingStore tables have been successfully created.</strong>";
+?>

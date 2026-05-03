@@ -1,0 +1,6 @@
+http://localhost/Pastimes/adminLogin.php for logging in as an admin
+http://localhost/Pastimes/login.php
+http://localhost/Pastimes/register.php
+http://localhost/Pastimes/loadClothingStore.php - for creating tables
+http://localhost/Pastimes/dashboard.php - after a succesfull login
+http://localhost/Pastimes/verifyUsers.php - for verifying users

@@ -7,20 +7,17 @@ include "DBConn.php";
 
 $message = "";
 $username = "";
-$email = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST["username"]);
-    $email = trim($_POST["email"]);
     $password = trim($_POST["password"]);
 
     $passwordHash = md5($password);
 
-    $sql = "SELECT * FROM tblUser 
-            WHERE username = ? AND email = ?";
+    $sql = "SELECT * FROM tblUser WHERE username = ?";
 
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "ss", $username, $email);
+    mysqli_stmt_bind_param($stmt, "s", $username);
     mysqli_stmt_execute($stmt);
 
     $result = mysqli_stmt_get_result($stmt);
@@ -29,17 +26,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user = mysqli_fetch_assoc($result);
 
         if ($user["userStatus"] != "Verified") {
-            $message = "Your account is still pending admin verification.";
+            $message = "<p class='error'>Your account is still pending admin verification.</p>";
         } elseif ($user["passwordHash"] == $passwordHash) {
             $_SESSION["userID"] = $user["userID"];
             $_SESSION["fullName"] = $user["fullName"];
 
-            $message = "User " . $user["fullName"] . " is logged in.";
+            header("Location: dashboard.php");
+            exit();
         } else {
-            $message = "Incorrect password. Please try again.";
+            $message = "<p class='error'>Incorrect password. Please try again.</p>";
         }
     } else {
-        $message = "User does not exist. Please register first.";
+        $message = "<p class='error'>User does not exist. Please register first.</p>";
     }
 }
 ?>
@@ -48,30 +46,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html>
 <head>
     <title>Login - Pastimes</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<h2>User Login</h2>
+<div class="container">
+    <h2>Login</h2>
 
-<p style="color:red;"><?php echo $message; ?></p>
+    <?= $message ?>
 
-<form method="POST">
-    <label>Username:</label><br>
-    <input type="text" name="username" value="<?php echo htmlspecialchars($username); ?>" required><br><br>
+    <form method="POST">
+        <input type="text" name="username" placeholder="Username" required
+               value="<?= htmlspecialchars($username) ?>">
 
-    <label>Email:</label><br>
-    <input type="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required><br><br>
+        <input type="password" name="password" placeholder="Password" required>
 
-    <label>Password:</label><br>
-    <input type="password" name="password" required><br><br>
+        <button type="submit">Login</button>
+    </form>
 
-    <button type="submit">Login</button>
-</form>
-
-<br>
-<a href="register.php">Register here</a>
-<br>
-<a href="adminLogin.php">Admin Login</a>
+    <a href="register.php">Create account</a>
+</div>
 
 </body>
 </html>
