@@ -11,7 +11,6 @@ if (!isset($_SESSION["userID"])) {
 $userID = $_SESSION["userID"];
 $message = "";
 
-// --- FUNCTIONAL BACKEND CHECKOUT HANDLER ---
 if (isset($_POST['checkout'])) {
     $cartItems = mysqli_query($conn, "SELECT * FROM tblCart WHERE userID = $userID");
     
@@ -21,7 +20,7 @@ if (isset($_POST['checkout'])) {
             $cID = $row['clothesID'];
             // Insert into order record
             mysqli_query($conn, "INSERT INTO tblAorder (buyerID, clothesID, orderDate, orderStatus) VALUES ($userID, $cID, '$today', 'Pending')");
-            // Mark item as Pending delivery so it moves out of standard active inventory views
+            // Mark item as Pending delivery 
             mysqli_query($conn, "UPDATE tblClothes SET itemStatus = 'Pending Delivery' WHERE clothesID = $cID");
         }
         // Wipe cart for this user
@@ -32,7 +31,7 @@ if (isset($_POST['checkout'])) {
     }
 }
 
-// --- FETCH DYNAMIC CART DISPLAY DATA ---
+
 $query = "SELECT c.cartID, c.quantity, p.itemName, p.brand, p.price 
           FROM tblCart c 
           JOIN tblClothes p ON c.clothesID = p.clothesID 

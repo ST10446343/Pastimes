@@ -13,7 +13,6 @@ if (!isset($_SESSION["adminID"])) {
 
 $message = "";
 
-// --- USER MANAGEMENT CONTROLLERS ---
 if (isset($_GET["verify"])) {
     $userID = intval($_GET["verify"]);
     $sql = "UPDATE tblUser SET userStatus = 'Verified' WHERE userID = ?";
@@ -34,7 +33,6 @@ if (isset($_GET["delete"])) {
     }
 }
 
-// --- MARKETPLACE STORE ITEM CONTROLLERS ---
 if (isset($_GET["approve_item"])) {
     $clothesID = intval($_GET["approve_item"]);
     mysqli_query($conn, "UPDATE tblClothes SET itemStatus = 'Available' WHERE clothesID = $clothesID");
@@ -47,14 +45,13 @@ if (isset($_GET["delete_item"])) {
     $message = "Clothing item entry successfully deleted.";
 }
 
-// --- ORDER DELIVERY LOGISTICS CONTROLLERS ---
+
 if (isset($_GET["complete_delivery"])) {
     $clothesID = intval($_GET["complete_delivery"]);
     mysqli_query($conn, "UPDATE tblClothes SET itemStatus = 'Delivered' WHERE clothesID = $clothesID");
     $message = "Order shipment verified and archived successfully!";
 }
 
-// --- LIVE SEQUENTIAL DATABASE DATA FETCHES ---
 $usersResult = mysqli_query($conn, "SELECT * FROM tblUser");
 
 $clothesResult = mysqli_query($conn, "

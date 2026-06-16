@@ -10,10 +10,10 @@ if (!isset($_SESSION["adminID"])) {
 
 $msg = "";
 
-// Handle Form Submission
+// Form Submission
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["send_message"])) {
     $receiverID = intval($_POST["receiverID"]);
-    // Using mysqli_real_escape_string ensures punctuation like "Levi's" won't crash your SQL string!
+    
     $msgText = mysqli_real_escape_string($conn, trim($_POST["messageText"])); 
     
     $sql = "INSERT INTO tblMessage (senderID, receiverID, messageText) VALUES (0, $receiverID, '$msgText')";
@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["send_message"])) {
     }
 }
 
-// Fetch dynamic selection and layout list items from database
+
 $users = mysqli_query($conn, "SELECT userID, fullName, username FROM tblUser");
 $chats = mysqli_query($conn, "SELECT m.*, u.username FROM tblMessage m JOIN tblUser u ON m.receiverID = u.userID WHERE m.senderID = 0 ORDER BY m.messageDate DESC");
 ?>
