@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <button type="submit">Login</button>
     </form>
-
+    <a href="adminLogin.php" style="display: block; text-align: left;">Admin login</a>
     <a href="register.php">Create account</a>
 </div>
 

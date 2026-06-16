@@ -16,6 +16,8 @@ runQuery($conn, "DROP TABLE IF EXISTS tblAorder", "Dropped tblAorder");
 runQuery($conn, "DROP TABLE IF EXISTS tblClothes", "Dropped tblClothes");
 runQuery($conn, "DROP TABLE IF EXISTS tblAdmin", "Dropped tblAdmin");
 runQuery($conn, "DROP TABLE IF EXISTS tblUser", "Dropped tblUser");
+runQuery($conn, "DROP TABLE IF EXISTS tblCart", "Dropped tblCart");
+runQuery($conn, "DROP TABLE IF EXISTS tblMessage", "Dropped tblMessage");
 
 $sqlUser = "CREATE TABLE tblUser (
     userID INT AUTO_INCREMENT PRIMARY KEY,
@@ -43,6 +45,7 @@ $sqlClothes = "CREATE TABLE tblClothes (
     clothesID INT AUTO_INCREMENT PRIMARY KEY,
     sellerID INT NOT NULL,
     itemName VARCHAR(100) NOT NULL,
+    itemDescription TEXT,
     brand VARCHAR(100) NOT NULL,
     size VARCHAR(20) NOT NULL,
     price DECIMAL(10,2) NOT NULL,
@@ -64,6 +67,27 @@ $sqlOrder = "CREATE TABLE tblAorder (
 )";
 
 runQuery($conn, $sqlOrder, "Created tblAorder");
+
+$sqlCart = "CREATE TABLE tblCart (
+    cartID INT AUTO_INCREMENT PRIMARY KEY,
+    userID INT NOT NULL,
+    clothesID INT NOT NULL,
+    quantity INT DEFAULT 1,
+    FOREIGN KEY(userID) REFERENCES tblUser(userID),
+    FOREIGN KEY(clothesID) REFERENCES tblClothes(clothesID)
+)";
+
+runQuery($conn, $sqlCart, "Created tblCart");
+
+$sqlMessage = "CREATE TABLE tblMessage (
+    messageID INT AUTO_INCREMENT PRIMARY KEY,
+    senderID INT NOT NULL,
+    receiverID INT NOT NULL,
+    messageText TEXT NOT NULL,
+    messageDate DATETIME DEFAULT CURRENT_TIMESTAMP
+)";
+
+runQuery($conn, $sqlMessage, "Created tblMessage");
 
 echo "<br><strong>ClothingStore tables have been successfully created.</strong>";
 ?>

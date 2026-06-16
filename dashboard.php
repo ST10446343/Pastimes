@@ -27,13 +27,14 @@ $user = $_SESSION["fullName"];
 
 <div class="container">
     <h3>Welcome, <?= htmlspecialchars($user) ?> 👋</h3>
+    <p>Use the Quick Navigation options below to access platform modules:</p>
 
-    <p>This is your dashboard.</p>
-
-    <a href="products.php"><button>View Items</button></a>
-    <a href="products.php"><button>Add Clothing Item</button></a>
-
-    <a href="logout.php">Logout</a>
+    <div style="margin: 20px 0;">
+        <a href="products.php"><button style="padding:10px;">🛍️ View & Request Clothes Items</button></a>
+        <a href="cart.php"><button style="padding:10px; background-color:orange;">🛒 Open Shopping Cart</button></a>
+    </div>
+    
+    <a href="logout.php">Sign out of platform profile</a>
 </div>
 
 </body>
